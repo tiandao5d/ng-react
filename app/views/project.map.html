@@ -1,0 +1,28 @@
+<div>
+  <div style="height: 15px;"></div>
+  <h4>{{'angular 主题' | nglang : 'angular UI' : $root.lang}}</h4>
+  <span uib-dropdown>
+    <a href uib-dropdown-toggle>
+      {{'angular UI的下拉选择工具' | nglang : 'angular dropdown' : $root.lang}}
+      {{listTestCls.selectItems}}
+      <!-- {{listTestCls.selectItems.map(o => o.id).join(', ')}} -->
+    </a>
+    <ul class="dropdown-menu" uib-dropdown-menu aria-labelledby="simple-dropdown">
+      <li ng-repeat="o in listTestCls.oriItems" ng-class="{active: listTestCls.hasSelect(o)}">
+        <a ng-click="listTestCls.onToggleItems(o)">{{o.id}}</a>
+      </li>
+    </ul>
+  </span>
+  <div style="height: 15px;"></div>
+  <h4>说明<small>下面颜色纯属随便给的没有特别意义，只是一堆文字看着眼疲劳</small></h4>
+  <div class="alert alert-success">这是原先项目中一个很麻烦的事情，项目太老不便于扩展和维护，但是公司人力又不够，无法直接重构，加上页面耦合性太高</div>
+  <div class="alert alert-info">以前也有过Vue蚕食重构的经验，奈何那时的旧项目界面分层明显耦合性底，不适合</div>
+  <div class="alert alert-warning">后，蚕食重构选型的时候就选了react，比起vue则是更加容易嵌入使用也更加灵活，Vue管理大型项目实在有些不爽</div>
+  <div class="alert alert-info">打包工具 webpack(原有项目时gulp，改了几次后还是决定正常webpack) 因为是嵌入无法直接使用react的cli，配置文件完全自写的，如果……</div>
+  <div class="alert alert-warning">自写的angular服务打包loader，参见ngFormatPlugin.js 简单题ng-annotate-loader 的中转loader</div>
+  <div class="alert alert-danger">主框架是angular + angular-ui-bootstrap + angular-ui-router，演示嵌入react并逐步蚕食</div>
+  <div class="alert alert-success">react 是嵌入的，可以再任何页面元素中嵌入，参见reactToNg.tsx，react的入口配置文件 主要就是ReactDOM.createPortal</div>
+  <div class="alert alert-info">有react + antd + typescript + react-intl(放弃了redux。而是多用的hooks，hooks玩的不要太爽)</div>
+  <div class="alert alert-warning">错误边界，错误后会提示，然后重新渲染错误组件，如果错误频率太高将不会继续重新渲染</div>
+  <div loading></div>
+</div>

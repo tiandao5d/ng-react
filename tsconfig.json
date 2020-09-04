@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "images": ["app/images"],
+      "src": ["src"]
+    },
+    "sourceMap": true,
+    "noImplicitAny": false,
+    "module": "commonjs",
+    "target": "es5",
+    "jsx": "react",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "allowSyntheticDefaultImports": true,
+    "downlevelIteration": true
+  },
+  "include": ["./images.d.ts", "./src", "./app/images"]
+}

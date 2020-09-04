@@ -1,0 +1,10 @@
+.DS_Store
+
+# Dependency directories
+node_modules
+
+# Build files
+build
+ng_plugin
+dist
+yarn.lock
