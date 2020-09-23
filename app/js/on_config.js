@@ -21,7 +21,7 @@ function OnConfig(
       },
     })
     .state("project.map", {
-      url: "/workspace/map",
+      url: "/workspace",
       views: {
         tableOrMap: {
           templateUrl: "project.map.html",
@@ -36,8 +36,8 @@ function OnConfig(
       title: "Workspace",
     });
 
-  $urlRouterProvider.when("/project", "/workspace/map");
-  $urlRouterProvider.otherwise("/workspace/map");
+  $urlRouterProvider.when("/project", "/workspace");
+  $urlRouterProvider.otherwise("/workspace");
 }
 
 module.exports = OnConfig;
