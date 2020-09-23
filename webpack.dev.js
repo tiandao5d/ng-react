@@ -3,8 +3,7 @@ const merge = require("webpack-merge");
 const common = require("./webpack.common.js");
 const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const NgFormatPlugin = require("./ngFormatPlugin.js");
-const { apiSetting, env } = require("./web_api_config.js"); // 项目配置文件的获取方法，根据webpack提供的env环境变量进行匹配
+const { env } = require("./web_api_config.js"); // 项目配置文件的获取方法，根据webpack提供的env环境变量进行匹配
 module.exports = merge(common, {
   mode: "development", // development  production
   devServer: {
@@ -26,7 +25,7 @@ module.exports = merge(common, {
     ],
   },
   watchOptions: {
-    ignored: [/ng_plugin/, /node_modules/],
+    ignored: [/node_modules/],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
@@ -34,13 +33,6 @@ module.exports = merge(common, {
       template: "app/index.html",
       env,
       favicon: path.resolve(__dirname, "app/images/favicon.ico"),
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginConfig.js"),
-      moduleStr: "xulin.constants",
-      ngName: "AppSettings",
-      settingJson: apiSetting,
-      type: "api_config",
     }),
   ],
 });

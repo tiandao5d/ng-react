@@ -22,16 +22,7 @@ class NgFormatPlugin {
     this.type = options.type; // 判断处理的方式，view或者空
 
     this.options = options;
-    this.hooksArr = ["beforeRun", "watchRun"];
-  }
-  apply(compiler) {
-    // emit 是异步 hook，使用 tapAsync 触及它，还可以使用 tapPromise/tap(同步)
-    this.hooksArr.forEach((k) => {
-      compiler.hooks[k].tapAsync("NgFormatPlugin", (compilation, callback) => {
-        this.reset();
-        callback();
-      });
-    });
+    this.reset()
   }
   reset() {
     let fstr = "";

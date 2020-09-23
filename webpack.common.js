@@ -1,7 +1,8 @@
 // 公用的webpack配置文件
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const NgFormatPlugin = require("./ngFormatPlugin.js"); // 提前将views，filters等文件夹下的文件合为一体，然后当成入口文件开始执行打包
+const { webpackBeforeRun } = require("./webpackBeforeRun");
+webpackBeforeRun();
 module.exports = {
   entry: {
     main: "./app/js/main.js",
@@ -105,48 +106,5 @@ module.exports = {
       },
     },
   },
-  plugins: [
-    new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["dist"] }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginControllers.js"),
-      dirsrc: path.resolve("./app/js/controllers"),
-      moduleStr: "app.controllers",
-      ngKey: "controller",
-      exclude: ["ngLoader.js", "index.js"],
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginDirectives.js"),
-      dirsrc: path.resolve("./app/js/directives"),
-      moduleStr: "app.directives",
-      ngKey: "directive",
-      exclude: ["ngLoader.js", "index.js"],
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginFilters.js"),
-      dirsrc: path.resolve("./app/js/filters"),
-      moduleStr: "app.filters",
-      ngKey: "filter",
-      exclude: ["ngLoader.js", "index.js"],
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginServices.js"),
-      dirsrc: path.resolve("./app/js/services"),
-      moduleStr: "app.services",
-      ngKey: "service",
-      exclude: ["ngLoader.js", "index.js"],
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginUtils.js"),
-      dirsrc: path.resolve("./app/js/utils"),
-      moduleStr: "app.utils",
-      ngKey: "service",
-      exclude: ["ngLoader.js", "index.js"],
-    }),
-    new NgFormatPlugin({
-      filesrc: path.resolve("./app/ng_plugin/ngPluginViews.js"),
-      dirsrc: path.resolve("./app/views"),
-      moduleStr: "templates",
-      type: "view",
-    }),
-  ],
+  plugins: [new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["dist"] })],
 };
