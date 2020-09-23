@@ -1,7 +1,7 @@
 // 环境配置文件
 const dev_setting = {
   apiUrl: "https://dev-api.xulin.com.cn",
-  nightfuryUrl: "https://leap-dev.xulin.com.cn/webs",
+  nightfuryUrl: "https://xulin-dev.xulin.com.cn/webs",
   photoHost: "https://photo-dev-api.xulin.com.cn",
 };
 const prod_setting = {
@@ -11,7 +11,7 @@ const prod_setting = {
 };
 const uat_setting = {
   apiUrl: "https://uat-api.xulin.com.cn",
-  nightfuryUrl: "https://leap-uat.xulin.com.cn/webs",
+  nightfuryUrl: "https://xulin-uat.xulin.com.cn/webs",
   photoHost: "https://photo-uat-api.xulin.com.cn",
 };
 

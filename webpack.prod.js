@@ -68,7 +68,7 @@ module.exports = merge(common, {
     new OptimizeCssAssetsPlugin(),
     new NgFormatPlugin({
       filesrc: path.resolve("./app/ng_plugin/ngPluginConfig.js"),
-      moduleStr: "leap.constants",
+      moduleStr: "xulin.constants",
       ngName: "AppSettings",
       settingJson: apiSetting,
       type: "api_config",

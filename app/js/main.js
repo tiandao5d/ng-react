@@ -13,7 +13,7 @@ let ngRequire = [
 ];
 // create and bootstrap application
 const requires = [
-  "leap.constants",
+  "xulin.constants",
   "ui.router",
   "templates",
   "app.filters",
