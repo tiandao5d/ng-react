@@ -1,8 +1,7 @@
 // 公用的webpack配置文件
 const path = require("path");
 const { CleanWebpackPlugin } = require("clean-webpack-plugin");
-const { webpackBeforeRun } = require("./webpackBeforeRun");
-webpackBeforeRun();
+const { Ngp } = require("./webpackBeforeRun");
 module.exports = {
   entry: {
     main: "./app/js/main.js",
@@ -106,5 +105,8 @@ module.exports = {
       },
     },
   },
-  plugins: [new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["dist"] })],
+  plugins: [
+    new CleanWebpackPlugin({ cleanAfterEveryBuildPatterns: ["dist"] }),
+    new Ngp(),
+  ],
 };

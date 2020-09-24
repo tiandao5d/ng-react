@@ -1,6 +1,7 @@
 // angular 的解析器，webpack loader
 const path = require("path");
 const fs = require("fs");
+let allFiles = {};
 class NgFormatPlugin {
   constructor(options) {
     // let a = {
@@ -18,13 +19,13 @@ class NgFormatPlugin {
 
     this.dirsrc = options.dirsrc || path.parse(this.filesrc).dir; // 数据来源文件夹，不给则是数据存放文件所在的文件夹
     this.exclude = options.exclude; // 需要排除在外的文件
-    this.allFiles = []; // 记录所有的文件
     this.type = options.type; // 判断处理的方式，view或者空
 
     this.options = options;
-    this.reset()
   }
   reset() {
+    // 都需要判断文件是否有改变，或内容是否有改变，才会去更新否则不予处理
+    // 这样才不会出现死循环
     let fstr = "";
     if (this.type === "view") {
       fstr = this.formatNgView();
@@ -66,8 +67,9 @@ class NgFormatPlugin {
   }
   hasNewFile(arr) {
     // 是否有新的文件
-    if (arr.length === this.allFiles.length) {
-      return arr.some((s) => !this.allFiles.includes(s));
+    let oldFiles = allFiles[this.filesrc] || [];
+    if (arr.length === oldFiles.length) {
+      return arr.some((s) => !oldFiles.includes(s));
     }
     return true;
   }
@@ -80,19 +82,17 @@ class NgFormatPlugin {
       typeof settingJson === "string"
         ? settingJson
         : JSON.stringify(settingJson);
+    let oldStr = allFiles[this.filesrc] || "";
+    let newStr = `import angular from 'angular';\nexport default angular.module("${that.moduleStr}", []).constant("${ngName}", ${settingJson});`;
+    if (oldStr === newStr) {
+      return false;
+    }
+    allFiles[this.filesrc] = newStr;
     try {
-      fs.writeFileSync(
-        that.filesrc,
-        `import angular from 'angular';\nexport default angular.module("${that.moduleStr}", []).constant("${ngName}", ${settingJson});`,
-        { flag: "w+" }
-      );
+      fs.writeFileSync(that.filesrc, newStr, { flag: "w+" });
     } catch (err) {
       fs.mkdirSync(path.parse(this.filesrc).dir);
-      fs.writeFileSync(
-        that.filesrc,
-        `import angular from 'angular';\nexport default angular.module("${that.moduleStr}", []).constant("${ngName}", ${settingJson});`,
-        { flag: "w+" }
-      );
+      fs.writeFileSync(that.filesrc, newStr, { flag: "w+" });
     }
   }
 
@@ -107,15 +107,15 @@ class NgFormatPlugin {
     if (!that.hasNewFile(arr)) {
       return false;
     }
-    that.allFiles = arr;
+    allFiles[that.filesrc] = arr;
     return that.viewStr();
   }
   viewStr() {
+    let oldFiles = allFiles[this.filesrc] || [];
     let that = this;
-    // that.allFiles.length = 1
     let names = [];
     let relative = path.relative(path.parse(that.filesrc).dir, that.dirsrc);
-    let str = that.allFiles
+    let str = oldFiles
       .map((s) => {
         names.push(path.parse(s).base);
         return `require('${path.join(relative, s.replace(that.dirsrc, ""))}')`;
@@ -147,13 +147,14 @@ module.exports = aModule;
     if (!that.hasNewFile(arr)) {
       return false;
     }
-    that.allFiles = arr;
+    allFiles[that.filesrc] = arr;
     return that.otherStr();
   }
   otherStr() {
+    let oldFiles = allFiles[this.filesrc] || [];
     let that = this;
     let relative = path.relative(path.parse(that.filesrc).dir, that.dirsrc);
-    let str = that.allFiles
+    let str = oldFiles
       .map((s) => {
         return `require('${path.join(relative, s.replace(that.dirsrc, ""))}')`;
       })
