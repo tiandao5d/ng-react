@@ -15,21 +15,26 @@ const uat_setting = {
   photoHost: "https://photo-uat-api.xulin.com.cn",
 };
 
-let env = "";
-const apiSetting = getAPISetting();
 function getAPISetting(arr = process.argv) {
+  // 默认配置正式环境
+  let env = "prod";
+  let isBuild = false;
+  let apiSetting = prod_setting;
   if (arr.includes("--prod")) {
     env = "prod";
-    return prod_setting;
-  }
-  if (arr.includes("--dev")) {
+    apiSetting = prod_setting;
+  } else if (arr.includes("--dev")) {
     env = "dev";
-    return dev_setting;
-  }
-  if (arr.includes("--uat")) {
+    apiSetting = dev_setting;
+  } else if (arr.includes("--uat")) {
     env = "uat";
-    return uat_setting;
+    apiSetting = uat_setting;
   }
+  if (arr.some((s) => s.endsWith("bin/webpack"))) {
+    isBuild = true;
+  }
+  return { env, isBuild, apiSetting };
 }
 
-module.exports = { apiSetting, env };
+const config = getAPISetting();
+module.exports = config;

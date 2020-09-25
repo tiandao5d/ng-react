@@ -5,7 +5,7 @@
       "images": ["app/images"],
       "src": ["src"]
     },
-    "sourceMap": true,
+    "sourceMap": false,
     "noImplicitAny": false,
     "module": "commonjs",
     "target": "es5",

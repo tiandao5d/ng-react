@@ -25,7 +25,7 @@ module.exports = merge(common, {
     ],
   },
   watchOptions: {
-    ignored: [/node_modules/],
+    ignored: [/ngPluginConfig.js/, /node_modules/],
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
